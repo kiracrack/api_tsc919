@@ -25,46 +25,6 @@
 /* 02. =document setup
 /* =================================================================== */
 
-/* Body 
----------------------------------------------------------------------- */
-html,
-body {
-	height: 100%;
-}
-
-html {
-	background: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 100)) , url(../images/bg-img-1.jpg) no-repeat center center fixed;
-	/*background: hsla(0,0%,0%,.75) url(../images/bg-img-1.jpg) no-repeat center center fixed;*/
-	-webkit-background-size: cover !important;
-	-moz-background-size: cover !important;
-	background-size: cover !important;
- 
-}
-
-body {
-	font: 15px/30px "montserrat-regular", sans-serif;
-	font-weight: normal;
-	color: #575859;
-}
-
-/* links 
----------------------------------------------------------------------- */
-a,
-a:visited {
-	outline: none;
-	color: #fff;
-	-moz-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	-webkit-transition: all 0.3s ease-in-out;
-	-ms-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
-}
-
-a:hover,
-a:focus {
-	color: white;
-}
-
 /* Typography
 --------------------------------------------------------------------- */
 h1,
@@ -273,17 +233,7 @@ dt {
 dd {
 	margin: 0 0 0 20px;
 }
-
-/* Floated image  
---------------------------------------------------------------------- */
-img.pull-right {
-	margin: 12px 0px 0px 18px;
-}
-
-img.pull-left {
-	margin: 12px 18px 0px 0px;
-}
-
+ 
 /* Style Placeholder Text  
 --------------------------------------------------------------------- */
 ::-webkit-input-placeholder {
@@ -315,13 +265,10 @@ img.pull-left {
 /* =================================================================== */
 #preloader {
 	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
 	background: black;
 	z-index: 9999999;
 	height: 100%;
+	width: 100%;
 }
 
 .no-js #preloader,

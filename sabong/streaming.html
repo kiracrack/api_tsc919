@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset=utf-8 />
+<link rel="icon" href="resources/images/anim_applogo.gif" type="image/gif" sizes="16x16">
+<link rel="stylesheet" type="text/css" href="resources/script/fonts.css">
+<link rel="stylesheet" type="text/css" href="resources/script/style.css">
+
+<link rel="stylesheet" type="text/css" href="resources/script/menuwrapper.css">
+<script src="resources/script/modernizr.custom.js"></script>
+
+<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+<script src="https://unpkg.com/video.js/dist/video.js"></script>
+<script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+	  
+<script src="resources/script/jquery-3.5.1.min.js"></script>
+<script src="resources/script/main.script.js"></script>
+<style type="text/css">
+	body{cursor: pointer;}
+	input[type="password"],[type="text"]{cursor: pointer;}
+	td{cursor: pointer;} 
+	.modal-button {cursor: pointer;}
+</style>
+<script type="text/javascript">
+	document.addEventListener('contextmenu', event => event.preventDefault());
+	var focusObject = "";
+	$(document).ready(function () {
+		var date = new Date();
+		$('table').attr("border", 0);
+		$('table').attr("cellpadding", 0);
+		$('table').attr("cellspacing", 0);
+	 
+		ShowTrendContainer();
+		
+	});
+
+	function MessageBox(msg, button, icon, callback) {
+		exitLoading();
+		setTimeout(function(){
+			exitLoading();
+			$(".modal.popup").addClass("show-modal");
+			$(".modal-content").css('width', '35rem');
+		    $(".modal.popup h3").html(msg);
+		    $('.modal.popup img').attr('src', 'resources/images/icon_'+icon+'.gif' + '?x=' + Date.now() + '")');
+
+		    var btn = $(".modal.popup span").html(button);
+		    btn.removeClass().addClass('modal-button').addClass(icon);
+		    btn.unbind().click(function(){});
+	    	btn.click(function(){
+	    		$(".modal.popup").removeClass("show-modal");
+	    		if(callback=="home"){
+	    			ShowHomeContainer();
+	    		}else if(callback=="change_pin"){
+	    			ShowNewPinContainer();
+	    		}
+			}); 
+
+		}, 250);}
+
+	function QuestionBox(msg, callback) {
+		$(".modal.question").addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+	    $(".modal.question h3").html(msg);
+	    $('.modal.question img').attr('src', 'resources/images/icon_question.gif' + '?x=' + Date.now() + '")');
+	    $(".modal.question .modal-button.success").unbind().click(function(){});
+	    $(".modal.question .modal-button.success").click(function(){
+	    	$(".modal.question").removeClass("show-modal");
+		   	callback();
+		});}
+
+	function PopupBox(element) {
+		$(".modal." + element).addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+	   
+	   /* $(".modal.question .modal-button.success").click(function(){
+	    	$(".modal.question").removeClass("show-modal");
+		   	callback();
+		});*/
+	}
+
+	function CustomPopupBox(element, width) {
+		$(".modal." + element).addClass("show-modal");
+		$(".modal-content").css('width', '70rem');
+	}
+
+	function PopupBoxUpdateFight(fight) {
+		$(".modal.fight-description").addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+		$(".modal.fight-description h1 label").text(fight);
+ 	}
+
+	function showLoading(){
+		$(".modal.loading").addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+	    $(".modal.loading h3").html("Please wait while processing your request..");
+	    $('.modal.loading img').attr('src', 'resources/images/spinner.gif' + '?x=' + Date.now() + '")');}
+
+	function exitLoading(){
+	    $(".modal.loading").removeClass("show-modal");
+	}
+
+	function exitQuestion() {
+	    $(".modal.question").removeClass("show-modal");
+	}
+	function closePopup() {
+	    $(".modal").removeClass("show-modal");
+	}
+</script>
+
+</head>
+
+<body>
+ 
+<!-- main container -->
+<div id="container-trends" >
+	<div class="full_view">
+		<table id="Controler" width="100%" >
+			<tr>
+				<td align="center">
+					<table class="header" style="padding: 10px 0px 10px 0px; width: 100%;">
+						<tr>
+							<td style="width: 30%; vertical-align:top; text-align: left; padding: 10px">
+								<div id="dl-menu" class="dl-menuwrapper">
+									<button class="dl-trigger">Open Menu</button>
+									<ul class="dl-menu">
+										<li><a onclick="ScreenMode()"><label id="screenmode">Full Screen Mode</label></a></li>
+									</ul>
+								</div>
+							</td>
+							<td style="width: 40%; vertical-align:top;" align="center"><img draggable="false" src="resources/images/app_logo.gif" width="250"></td>
+							<td style="width: 30%; vertical-align:top; text-align: right; padding: 10px"> Login AS JUAN DELA CRUZ <br/>August 25, 2020 3:45:21 PM <br/>Client IP: 122.53.2.56</td>
+						</tr>
+					</table>
+				</td> </tr>
+			<tr>
+				<td align="center">
+					<table style="width: auto; ">
+						<tr>
+							<td style="width: auto; padding: 20px; " align="center"> <label class="bold" style="font-size: 25px;">LIVE STREAMING</label> </td>
+						</tr>
+						<tr>
+							<td style="width: 1080px; background: rgba(0, 0, 0, 0.5);  border-radius: 5px;" align="center">
+								<video id="my_video_1" class="video-js vjs-fluid vjs-default-skin" controls preload="auto" data-setup='{}'>
+									<source src="https://wowzaprod236-i.akamaihd.net/hls/live/1019929/82254b0a/playlist.m3u8" type="application/x-mpegURL">
+								</video>
+							</td>
+						</tr>
+					</table>
+				</td> </tr>
+			 
+		</table>
+		
+	</div></div>
+	 
+
+ <script src="resources/script/jquery.dlmenu.js"></script>
+ <script>
+	 var player = videojs('my_video_1');
+		player.play();
+
+    $(function(){
+        $( '#dl-menu' ).dlmenu();
+    })
+</script>
+
+ 
+<!-- End main container -->
+
+<div class="modal loading">
+    <div class="modal-content">
+    	<img draggable="false" class="modal-icon" >
+    	<h3></h3>
+    </div></div>
+
+<div class="modal popup">
+    <div class="modal-content">
+    	<img draggable="false" class="modal-icon" >
+        <h3> </h3>
+        <span class="modal-button success" onclick="javascript: $('.modal.popup').removeClass('show-modal')" ></span>
+    </div></div>
+
+<div class="modal question">
+    <div class="modal-content">
+    	<img draggable="false" class="modal-icon" >
+        <h3> </h3>
+        <span class="modal-button alert" onclick="javascript: $('.modal.question').removeClass('show-modal')" >No</span>
+        <span class="modal-button success" >Yes</span>
+    </div></div>
+ 
+
+<script>
+	var fullscreen = false;
+	var elem = document.documentElement;
+	function openFullscreen() {
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) { /* Firefox */
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { /* IE/Edge */
+			elem.msRequestFullscreen();
+		}
+		fullscreen = true;
+	}
+
+	function closeFullscreen() {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+		fullscreen = false;
+	}
+
+	function ScreenMode(){
+		if(fullscreen){
+			closeFullscreen();
+			$('#screenmode').text('Full Screen Mode');
+		}else{
+			openFullscreen();
+			$('#screenmode').text('Exit Full Screen');
+		}
+	}
+
+
+	var elem_NeMin = document.getElementById('txtNeMinute');
+	var elem_NeSec = document.getElementById('txtNeSecond');
+	var elem_NeMil = document.getElementById('txtNeMilsecond');
+
+	var elem_min = document.getElementById('txtMinute');
+	var elem_sec = document.getElementById('txtSecond');
+	var elem_mil = document.getElementById('txtMilsecond');
+	
+	IMask(elem_NeMin, {mask: Number, min: 0, max: 59});
+	IMask(elem_NeSec, {mask: Number, min: 0, max: 59});
+	IMask(elem_NeMil, {mask: Number, min: 0, max: 59});
+
+	IMask(elem_min, {mask: Number, min: 0, max: 59});
+	IMask(elem_sec, {mask: Number, min: 0, max: 59});
+	IMask(elem_mil, {mask: Number, min: 0, max: 59});
+
+	var elem_fight_from = document.getElementById('txtFightFrom');
+	var elem_fight_to = document.getElementById('txtFightTo');
+	IMask(elem_fight_from, {mask: Number, min: 1, max: 1000});
+	IMask(elem_fight_to, {mask: Number, min: 1, max: 1000});
+
+	//Make the DIV element draggagle:
+	dragElement(document.getElementById("windowResult"));
+	//dragElement(document.getElementById("mydiv2"));
+	//dragElement(document.getElementById("mydiv3"));
+
+	function dragElement(elmnt) {
+		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+		if (document.getElementById(elmnt.id + "header")) {
+			/* if present, the header is where you move the DIV from:*/
+			document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+		} else {
+			/* otherwise, move the DIV from anywhere inside the DIV:*/
+			elmnt.onmousedown = dragMouseDown;
+		}
+
+		function dragMouseDown(e) {
+			e = e || window.event;
+			e.preventDefault();
+			// get the mouse cursor position at startup:
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			document.onmouseup = closeDragElement;
+			// call a function whenever the cursor moves:
+			document.onmousemove = elementDrag;
+		}
+
+		function elementDrag(e) {
+			e = e || window.event;
+			e.preventDefault();
+			// calculate the new cursor position:
+			pos1 = pos3 - e.clientX;
+			pos2 = pos4 - e.clientY;
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			// set the element's new position:
+			elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+			elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+		}
+
+		function closeDragElement() {
+			/* stop moving when mouse button is released:*/
+			document.onmouseup = null;
+			document.onmousemove = null;
+		}
+	}
+</script>
+
+</body>
+</html>

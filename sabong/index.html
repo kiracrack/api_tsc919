@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<link rel="icon" href="resources/images/anim_applogo.gif" type="image/gif" sizes="16x16">
+<link rel="stylesheet" type="text/css" href="resources/script/fonts.css">
+<link rel="stylesheet" type="text/css" href="resources/script/style.css">
+
+<link rel="stylesheet" type="text/css" href="resources/script/menuwrapper.css">
+<script src="resources/script/modernizr.custom.js"></script>
+
+<script src="resources/script/jquery-3.5.1.min.js"></script>
+<script src="resources/script/imask.js"></script>
+<script src="resources/script/main.script.js"></script>
+<script src= "https://player.twitch.tv/js/embed/v1.js"></script>
+<style type="text/css">
+	body{cursor: pointer;}
+	input[type="password"],[type="text"]{cursor: pointer;}
+	td{cursor: pointer;} 
+	.modal-button {cursor: pointer;}
+</style>
+<script type="text/javascript">
+	document.addEventListener('contextmenu', event => event.preventDefault());
+	var focusObject = "";
+	$(document).ready(function () {
+		var date = new Date();
+		$('table').attr("border", 0);
+		$('table').attr("cellpadding", 0);
+		$('table').attr("cellspacing", 0);
+		$('#datepicker').val(date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2));
+
+		ShowTrendContainer();
+		
+	});
+
+	function MessageBox(msg, button, icon, callback) {
+		exitLoading();
+		setTimeout(function(){
+			exitLoading();
+			$(".modal.popup").addClass("show-modal");
+			$(".modal-content").css('width', '35rem');
+		    $(".modal.popup h3").html(msg);
+		    $('.modal.popup img').attr('src', 'resources/images/icon_'+icon+'.gif' + '?x=' + Date.now() + '")');
+
+		    var btn = $(".modal.popup span").html(button);
+		    btn.removeClass().addClass('modal-button').addClass(icon);
+		    btn.unbind().click(function(){});
+	    	btn.click(function(){
+	    		$(".modal.popup").removeClass("show-modal");
+	    		if(callback=="home"){
+	    			ShowHomeContainer();
+	    		}else if(callback=="change_pin"){
+	    			ShowNewPinContainer();
+	    		}
+			}); 
+
+		}, 250);}
+
+	function QuestionBox(msg, callback) {
+		$(".modal.question").addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+	    $(".modal.question h3").html(msg);
+	    $('.modal.question img').attr('src', 'resources/images/icon_question.gif' + '?x=' + Date.now() + '")');
+	    $(".modal.question .modal-button.success").unbind().click(function(){});
+	    $(".modal.question .modal-button.success").click(function(){
+	    	$(".modal.question").removeClass("show-modal");
+		   	callback();
+		});}
+
+	function PopupBox(element) {
+		$(".modal." + element).addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+	   
+	   /* $(".modal.question .modal-button.success").click(function(){
+	    	$(".modal.question").removeClass("show-modal");
+		   	callback();
+		});*/
+	}
+
+	function CustomPopupBox(element, width) {
+		$(".modal." + element).addClass("show-modal");
+		$(".modal-content").css('width', '70rem');
+	}
+
+	function PopupBoxUpdateFight(fight) {
+		$(".modal.fight-description").addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+		$(".modal.fight-description h1 label").text(fight);
+ 	}
+
+	function showLoading(){
+		$(".modal.loading").addClass("show-modal");
+		$(".modal-content").css('width', '35rem');
+	    $(".modal.loading h3").html("Please wait while processing your request..");
+	    $('.modal.loading img').attr('src', 'resources/images/spinner.gif' + '?x=' + Date.now() + '")');}
+
+	function exitLoading(){
+	    $(".modal.loading").removeClass("show-modal");
+	}
+
+	function exitQuestion() {
+	    $(".modal.question").removeClass("show-modal");
+	}
+	function closePopup() {
+	    $(".modal").removeClass("show-modal");
+	}
+</script>
+
+</head>
+
+<body>
+ 
+<!-- main container -->
+<div id="container"></div>
+
+<div id="container-trends" style="display: none" >
+	<div class="full_view">
+		<table id="Controler" width="100%" >
+			<tr>
+				<td align="center">
+					<table class="header" style="padding: 10px 0px 10px 0px; width: 100%;">
+						<tr>
+							<td style="width: 30%; vertical-align:top; text-align: left; padding: 10px">
+								<div id="dl-menu" class="dl-menuwrapper">
+									<button class="dl-trigger">Open Menu</button>
+									<ul class="dl-menu">
+										<!-- <li>
+											<a href="#">Event</a>
+											<ul class="dl-submenu">
+												<li><a href="#">New Event</a></li>
+												<li><a href="#">List of Event</a></li>
+											</ul> </li> -->
+										<li><a onclick="PopupBox('event')">New Event</a></li>
+										<li><a onclick="CustomPopupBox('list-event')">List of Event</a></li>
+										<li><a onclick="ScreenMode()"><label id="screenmode">Full Screen Mode</label></a></li>
+									</ul>
+								</div>
+							</td>
+							<td style="width: 40%; vertical-align:top;" align="center"><img draggable="false" src="resources/images/app_logo.gif" width="250"></td>
+							<td style="width: 30%; vertical-align:top; text-align: right; padding: 10px"> Login AS JUAN DELA CRUZ <br/>August 25, 2020 3:45:21 PM <br/>Client IP: 122.53.2.56</td>
+						</tr>
+					</table>
+				</td> </tr>
+			<tr>
+				<td align="center">
+					<table style="width: 100%;">
+						<tr>
+							<td style="width: 50%;">
+								<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+									<tr><td align="center" style="font-size: 50px;">MERON</td></tr>
+									<tr>
+										<td style=" background: rgba(0, 0, 0, 0.5); padding: 12px" align="center">
+											<a class="total_bets meron"><label>453,250.25</label></a><br/>
+											<label class="bold" style="font-size: 25px;">AMENIC 'N CALAJOAN</label><br/>
+											<label class="light" style="font-size: 20px;">2250 GMS</label>
+
+										</td>
+									</tr>
+									<tr><td align="center"></td></tr>
+								</table>
+							</td>
+							<td style="width: auto; background: rgba(0, 0, 0, 0.5); padding: 15px; border-radius: 5px;" align="center">
+								<table>
+									<tr><td align="center" colspan="3" class="text light-blue" style="text-align: center; padding-bottom: 5px;">FIGHT # 69 : JUNE 25, 2020 PARTY SABONG</td> </tr>
+									 <tr>
+									 	<td align="center" colspan="3" style="background-color: black">
+									 		<!-- <object data='https://www.youtube.com/embed/eH0q0dSBbdo?autoplay=0'  width='560px' height='315px'></object> -->
+											<div id="twitch-embed"></div>
+									 	</td>
+									 </tr>
+									 <tr>
+									 	<td class="text light-green" style="padding-top: 10px;">2:36:00</td>
+										<td class="text light-blue" style="padding-top: 10px;">REMAINING TIME TO FIGHT</td>
+										<td style="padding-top: 10px;" align="right"> 
+											<!-- <input class="stream circle open"  type="button" disabled> <label class="stream text open">OPEN</label></td> -->
+											<!-- <input class="stream circle lastcall"  type="button" disabled> <label class="stream text lastcall">LAST CALL</label></td> -->
+											<input class="stream circle close"  type="button" disabled> <label class="stream text close">CLOSE</label></td>
+									 </tr>
+								</table>
+							</td>
+							<td style="width: 50%">
+								<table style="width: 100%;">
+									<tr><td align="center" style="font-size: 50px;">WALA</td></tr>
+									<tr>
+										<td style=" background: rgba(0, 0, 0, 0.5); padding: 12px" align="center">
+											<a class="total_bets wala"><label>374,138.14</label></a><br/>
+											<label class="bold" style="font-size: 25px;">BBQ</label><br/>
+											<label class="light" style="font-size: 20px;">1850 GMS</label>
+
+										</td>
+									</tr>
+									<tr><td></td></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td> </tr>
+			<tr>
+				<td align="center">
+					<table style="width: auto;">
+						<tr>
+							<td><a class="btn-menu normal" onclick="PopupBoxUpdateFight('69')">FIGHT DESCRIPTION</a></td>
+							<td><a class="btn-menu normal" onclick="QuestionBox('Are you sure you want to show advertise?', '')">ADVERTISE</a></td>
+							<td><a class="btn-menu toggle" onclick="QuestionBox('Are you sure you want to show live?', '')">LIVE</a></td>
+							<td class="menu-status">
+								<a id="pop_ctrl" class="btn-menu normal" href='javascript:void(null);'>STATUS</a>
+					            <ul id="menu_ul">
+					                <li class="menu_li"><a class="btn-menu normal" onclick="QuestionBox('Are you sure you want to continue?', '')">Open Bet</a></li>
+					                <li class="menu_li"><a class="btn-menu yellow" onclick="QuestionBox('Are you sure you want to continue?', '')">Last Call</a></li>
+					                <li class="menu_li"><a class="btn-menu toggle" onclick="QuestionBox('Are you sure you want to continue?', '')">Close Bet</a></li>
+					            </ul>
+							</td>
+							<td class="menu-result">
+								<a id="pop_ctrl" class="btn-menu normal" href='javascript:void(null);'>RESULT</a>
+					            <ul id="menu_ul">
+					                <li class="menu_li">
+					                	<a class="btn-menu toggle" onclick="QuestionBox('<span>MERON WINS IS SELECTED</span><br/>Are you sure you want to continue?', MeronWins)">MERON WIN</a>
+					                </li>
+					                <li class="menu_li">
+					                	<a class="btn-menu wala" onclick="QuestionBox('<span>WALA WINS IS SELECTED</span><br/>Are you sure you want to continue?', MeronWins)">WALA WIN</a>
+					                </li>
+					                <li class="menu_li">
+					                	<a class="btn-menu draw" onclick="QuestionBox('<span>DRAW RESULT IS SELECTED</span><br/>Are you sure you want to continue?', MeronWins)">DRAW</a>
+					                </li>
+					                <li class="menu_li">
+					                	<a class="btn-menu cancelled" onclick="QuestionBox('<span>CANCELLED RESULT IS SELECTED</span><br/>Are you sure you want to continue?', MeronWins)">CANCELLED</a>
+					                </li>
+					            </ul>
+							</td>
+							<td><a class="btn-menu normal" onclick="PopupBox('fight-timer')">TIMER</a></td>
+						</tr>
+					</table>
+				</td> </tr>
+			<tr>
+				<td align="center">
+					<table width="50%">
+						<tr><td class="event_title" align="center">5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" style="padding: 10px 10px">
+					<table class="trends" cellspacing='0' cellpadding='0'>
+						<tr>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="draw"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="cancelled"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="cancelled"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+						</tr>
+						<tr>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="cancelled"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="draw"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+						</tr>
+						<tr>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="draw"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="wala"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+						</tr>
+						<tr>
+							<td><div class=""></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="draw"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="draw"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="meron"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+							<td><div class="none"></div></td>
+						</tr>
+						
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 10px 50px 20px 50px">
+					<div style=" border-radius: 0.5rem;background: rgba(0, 0, 0, 0.5); padding: 20px">
+						<table id="Trends" class="fights" width="100%" >
+						 <tr>
+						 	<th>FIGHT #</th>
+						 	<th>FIGHT DESCRIPTION</th>
+						 	<th>MERON</th>
+						 	<th>WALA</th>
+						 	<th>RESULT</th>
+						 	<th>RATE</th>
+						 	<th>STATUS</th>
+						 	<th>TIMER</th>
+						 	<th>LIVE</th>
+						 </tr>
+						 <tr align="center">
+						 	<td>1</td>
+						 	<td><a onclick="MessageBox('Ooops! This fight is already closed!', 'Okay', 'alert');">AMENIC VS BBQ</a></td>
+						 	<td>654,712.21</td>
+						 	<td>987,875.46</td>
+						 	<td class="event_result meron">MERON</td>
+						 	<td>180%</td>
+						 	<td>CLOSE</td>
+						 	<td>02:12:23</td>
+						 	<td>DONE</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>2</td>
+						 	<td><a onclick="MessageBox('Ooops! This fight is already closed!', 'Okay', 'alert');">AMENIC VS BBQ</a></td>
+						 	<td>1,549,654.14</td>
+						 	<td>1,234,098.67</td>
+						 	<td class="event_result meron">MERON</td>
+						 	<td>147%</td>
+						 	<td>CLOSE</td>
+						 	<td>01:26:59</td>
+						 	<td>DONE</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>3</td>
+						 	<td><a onclick="MessageBox('Ooops! This fight is already closed!', 'Okay', 'alert');">AMENIC VS BBQ</a></td>
+						 	<td>126,465.25</td>
+						 	<td>655,415.65</td>
+						 	<td class="event_result wala">WALA</td>
+						 	<td>268%</td>
+						 	<td>CLOSE</td>
+						 	<td>02:51:29</td>
+						 	<td>DONE</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>4</td>
+						 	<td><a onclick="MessageBox('Ooops! This fight is already closed!', 'Okay', 'alert');">AMENIC VS BBQ</a></td>
+						 	<td>156,496.54</td>
+						 	<td>155,460.24</td>
+						 	<td class="event_result cancelled">CANCELLED</td>
+						 	<td>2:14</td>
+						 	<td>CLOSE</td>
+						 	<td>02:49:12</td>
+						 	<td>DONE</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>5</td>
+						 	<td><a onclick="MessageBox('Ooops! This fight is already closed!', 'Okay', 'alert');">AMENIC VS BBQ</a></td>
+						 	<td>102,364.46</td>
+						 	<td>295,645.98</td>
+						 	<td class="event_result wala">WALA</td>
+						 	<td>210%</td>
+						 	<td>CLOSE</td>
+						 	<td>02:53:22</td>
+						 	<td>DONE</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>6</td>
+						 	<td><a onclick="MessageBox('Ooops! This fight is already closed!', 'Okay', 'alert');">AMENIC VS BBQ</a></td>
+						 	<td>356,974.45</td>
+						 	<td>589,461.00</td>
+						 	<td class="event_result draw">DRAW</td>
+						 	<td>3:12</td>
+						 	<td>CLOSE</td>
+						 	<td>02:21:23</td>
+						 	<td>DONE</td>
+						 </tr>
+						 <tr align="center" class="event_row_current">
+						 	<td>7</td>
+						 	<td><a onclick="PopupBoxUpdateFight('7')">AMENIC VS BBQ</a></td>
+						 	<td></td>
+						 	<td></td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>OPEN</td>
+						 	<td>0</td>
+						 	<td>YES</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>8</td>
+						 	<td><a onclick="PopupBoxUpdateFight('8')">AMENIC VS BBQ</a></td>
+						 	<td></td>
+						 	<td></td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>0</td>
+						 	<td>-</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>9</td>
+						 	<td><a onclick="PopupBoxUpdateFight('9')">AMENIC VS BBQ</a></td>
+						 	<td></td>
+						 	<td></td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>0</td>
+						 	<td>-</td>
+						 </tr>
+						 <tr align="center">
+						 	<td>10</td>
+						 	<td><a onclick="PopupBoxUpdateFight('10')">AMENIC VS BBQ</a></td>
+						 	<td></td>
+						 	<td></td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>-</td>
+						 	<td>0</td>
+						 	<td>-</td>
+						 </tr>
+					</table>
+					</div>
+					
+				</td>
+			</tr>
+		</table>
+		
+	</div></div>
+	 
+ <script src="resources/script/jquery.popmenu.js"></script>
+ <script src="resources/script/jquery.dlmenu.js"></script>
+ <script>
+    $(function(){
+        $('.menu-status').popmenu({'width': 'auto', 'background':'#FFF','focusColor':'#efefef','borderRadius':'10px', 'top': '0', 'left': '100', 'color':'#ffffff'});
+        $('.menu-result').popmenu({'width': 'auto', 'background':'#FFF','focusColor':'#efefef','borderRadius':'10px', 'top': '0', 'left': '100', 'color':'#ffffff'});
+        $( '#dl-menu' ).dlmenu();
+    })
+</script>
+
+ 
+<!-- End main container -->
+
+<div class="modal loading">
+    <div class="modal-content">
+    	<img draggable="false" class="modal-icon" >
+    	<h3></h3>
+    </div></div>
+
+<div class="modal popup">
+    <div class="modal-content">
+    	<img draggable="false" class="modal-icon" >
+        <h3> </h3>
+        <span class="modal-button success" onclick="javascript: $('.modal.popup').removeClass('show-modal')" ></span>
+    </div></div>
+
+<div class="modal question">
+    <div class="modal-content">
+    	<img draggable="false" class="modal-icon" >
+        <h3> </h3>
+        <span class="modal-button alert" onclick="javascript: $('.modal.question').removeClass('show-modal')" >No</span>
+        <span class="modal-button success" >Yes</span>
+    </div></div>
+
+<div class="modal event">
+<div class="modal-content">
+	<div class="close"><img src="resources/images/icon_close.svg" onclick="closePopup()" width="30"></div>
+    <h1 align="left">New Event</h1>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    	<tr><td align="right" width="23%">FIGHT #</td>
+    		<td align="left">
+    			<input id="txtFightFrom" class="input center" type="text" placeholder="From" name=""> 
+    			<input id="txtFightTo" class="input center" type="text" placeholder="To" name="">
+    		</td>
+    	</tr>
+    	<tr><td align="right">SCHEDULE</td><td align="left"><input id="datepicker" type="date" data-date-format="DD MMMM YYYY" style="width: 223px;"></td></tr>
+ 		<tr><td align="right">TITLE OF EVENT</td><td align="left"><textarea rows="3" style="width: 100%"></textarea></td></tr>
+ 		<tr><td align="right">TIMER</td>
+ 			<td align="left">
+ 				<input id="txtNeMinute" class="input center" type="text" placeholder="Minute" name=""> 
+ 				<input id="txtNeSecond" class="input center" type="text" placeholder="Second" name=""> 
+ 				<input id="txtNeMilsecond" class="input center" type="text" placeholder="Mili Sec." name="">
+ 			</td>
+ 		</tr>
+ 		<tr><td align="right"></td><td align="left"><h3>LIVE STREAMING URL</h3></td></tr>
+ 		<tr><td align="right">LIVE </td><td align="left"><input type="text" name="" style="width: 100%"></td></tr>
+ 		<tr><td align="right">ADVERTISE</td><td align="left"><input type="text" name="" style="width: 100%"></td></tr>
+ 		<tr><td align="center" colspan="2">
+			<table>
+				<tr><td><a class="btn-menu normal"  onclick="closePopup()">CANCEL</a></td>
+					<td><a class="btn-menu toggle">GENERATE</a></td>
+				</tr>
+			</table>
+		 </td></tr>
+    </table>
+</div></div>
+
+<div class="modal fight-description">
+<div class="modal-content">
+	<div class="close"><img src="resources/images/icon_close.svg" onclick="closePopup()" width="30"></div>
+	<h3 align="center">Fight Description</h3>
+	<h1 align="center">Fight Number: <label style="font-size: 25px;">69</label></h1>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+ 		<tr>
+			 <td align="center">
+				<table>
+					<tr><td align="center"><label class="medium" style="font-size: 20px;">MERON</label><br/></td></tr>
+					<tr><td><input type="text" placeholder="Entry name" style="width: 100%; text-align: center;"></td></tr>
+					<tr><td style="padding: 2px 50px;"><input type="text" placeholder="Weight in GMS" style="width: 100%; text-align: center;"></td></tr>
+				</table>
+			 </td>
+			 <td align="center">
+				<table>
+					<tr><td align="center"><label class="medium" style="font-size: 20px;">WALA</label><br/></td></tr>
+					<tr><td><input type="text" placeholder="Entry name" style="width: 100%; text-align: center;"></td></tr>
+					<tr><td style="padding: 2px 50px;"><input type="text" placeholder="Weight in GMS" style="width: 100%; text-align: center;"></td></tr>
+				</table>
+			 </td>
+		</tr>
+ 		<tr>
+			 <td align="center" colspan="2">
+				<table>
+					<tr><td><a class="btn-menu normal" onclick="closePopup()">CANCEL</a></td>
+						<td><a class="btn-menu toggle">UPDATE</a></td>
+					</tr>
+				</table>
+		 	</td>
+		</tr>
+    </table>
+</div></div>
+
+<div class="modal fight-timer">
+<div class="modal-content">
+	<div class="close"><img src="resources/images/icon_close.svg"  onclick="closePopup()" width="30"></div>
+    <h2 align="center">Timer before begin fight</h2>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+ 		<tr>
+ 			<td align="center">
+ 				<input id="txtMinute" class="input center" type="text" placeholder="Minute" name=""> 
+ 				<input id="txtSecond" class="input center" type="text" placeholder="Second" name=""> 
+ 				<input id="txtMilsecond" class="input center" type="text" placeholder="Mili Sec." name="">
+ 			</td>
+ 		</tr>
+ 		<tr>
+			 <td align="center">
+				<table>
+					<tr><td><a class="btn-menu normal"  onclick="closePopup()">CANCEL</a></td>
+						<td><a class="btn-menu toggle">UPDATE</a></td>
+					</tr>
+				</table>
+			 </td>
+		</tr>
+    </table>
+</div></div>
+
+
+<div class="modal list-event">
+	<div class="modal-content">
+		<div class="close"><img src="resources/images/icon_close.svg"  onclick="closePopup()" width="30"></div>
+		<h2 align="center">List of Event</h2>
+		<table class="events" width="100%" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<th>Fight #</th>
+				<th>Schedule</th>
+				<th>Title of Event</th>
+				<th>Timer</th>
+				<th>Live Stream</th>
+				<th>Advertise</th>
+				<th>Menu</th>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			<tr>
+				<td style="white-space: nowrap;">1 - 250</td>
+				<td>August 5, 2020</td>
+				<td>5 COCK DERBY AMENIC N'CALAJOAN, MINGLANILLA, CEBU, PHILS. @ 2PM TODAY</td>
+				<td>2:30:00</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td>https://cdn3.wowza.com/1/QW0wbDZ3ckRzcGtp/T2FxYXlz/hls/live/playlist.m3u8</td>
+				<td><a class="btn-menu toggle">Edit</a></td>
+			</tr>
+			
+		</table>
+	</div></div>
+
+	<script type="text/javascript">
+		var options = {
+		 width: 560,
+			  height: 315,
+			  channel: "nortsistheboss",
+		  // only needed if your site is also embedded on embed.example.com and othersite.example.com
+		  parent: ["tsc999.club"]
+		};
+		var player = new Twitch.Player("twitch-embed", options);
+		player.setVolume(0.5);
+	  </script>
+
+<script>
+	var fullscreen = false;
+	var elem = document.documentElement;
+	function openFullscreen() {
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) { /* Firefox */
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { /* IE/Edge */
+			elem.msRequestFullscreen();
+		}
+		fullscreen = true;
+	}
+
+	function closeFullscreen() {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+		fullscreen = false;
+	}
+
+	function ScreenMode(){
+		if(fullscreen){
+			closeFullscreen();
+			$('#screenmode').text('Full Screen Mode');
+		}else{
+			openFullscreen();
+			$('#screenmode').text('Exit Full Screen');
+		}
+	}
+
+
+	var elem_NeMin = document.getElementById('txtNeMinute');
+	var elem_NeSec = document.getElementById('txtNeSecond');
+	var elem_NeMil = document.getElementById('txtNeMilsecond');
+
+	var elem_min = document.getElementById('txtMinute');
+	var elem_sec = document.getElementById('txtSecond');
+	var elem_mil = document.getElementById('txtMilsecond');
+	
+	IMask(elem_NeMin, {mask: Number, min: 0, max: 59});
+	IMask(elem_NeSec, {mask: Number, min: 0, max: 59});
+	IMask(elem_NeMil, {mask: Number, min: 0, max: 59});
+
+	IMask(elem_min, {mask: Number, min: 0, max: 59});
+	IMask(elem_sec, {mask: Number, min: 0, max: 59});
+	IMask(elem_mil, {mask: Number, min: 0, max: 59});
+
+	var elem_fight_from = document.getElementById('txtFightFrom');
+	var elem_fight_to = document.getElementById('txtFightTo');
+	IMask(elem_fight_from, {mask: Number, min: 1, max: 1000});
+	IMask(elem_fight_to, {mask: Number, min: 1, max: 1000});
+
+	//Make the DIV element draggagle:
+	dragElement(document.getElementById("windowResult"));
+	//dragElement(document.getElementById("mydiv2"));
+	//dragElement(document.getElementById("mydiv3"));
+
+	function dragElement(elmnt) {
+		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+		if (document.getElementById(elmnt.id + "header")) {
+			/* if present, the header is where you move the DIV from:*/
+			document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+		} else {
+			/* otherwise, move the DIV from anywhere inside the DIV:*/
+			elmnt.onmousedown = dragMouseDown;
+		}
+
+		function dragMouseDown(e) {
+			e = e || window.event;
+			e.preventDefault();
+			// get the mouse cursor position at startup:
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			document.onmouseup = closeDragElement;
+			// call a function whenever the cursor moves:
+			document.onmousemove = elementDrag;
+		}
+
+		function elementDrag(e) {
+			e = e || window.event;
+			e.preventDefault();
+			// calculate the new cursor position:
+			pos1 = pos3 - e.clientX;
+			pos2 = pos4 - e.clientY;
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			// set the element's new position:
+			elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+			elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+		}
+
+		function closeDragElement() {
+			/* stop moving when mouse button is released:*/
+			document.onmouseup = null;
+			document.onmousemove = null;
+		}
+	}
+</script>
+
+</body>
+</html>
